@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'YLT_Faceboard_Example' do
+  pod 'YLT_Faceboard', :path => '../'
+
+  target 'YLT_Faceboard_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

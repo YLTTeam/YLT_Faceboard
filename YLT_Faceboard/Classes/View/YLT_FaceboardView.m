@@ -144,29 +144,30 @@
             if (!model.isEmpty) {
                 UITextField *textField = ((UITextField *) self.configer.inputView);
                 NSInteger location = textField.selectedRange.location;
-                if (model.isDelete && location > 0) {//删除事件
-                    //匹配光标位置往前的字符串
-                    __block NSString *front = [textField.text substringToIndex:location];
-                    NSString *back = [textField.text substringFromIndex:location];
-                    __block BOOL isEmoji = NO;
-                    if ([front hasSuffix:@"]"]) {
-                        [self.configer.keyboards enumerateObjectsUsingBlock:^(YLT_FaceboardGroupModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                            [obj.faces enumerateObjectsUsingBlock:^(YLT_FaceModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stopFace) {
-                                if (obj.faceName && [front hasSuffix:obj.faceName]) {
-                                    isEmoji = YES;
-                                    front = [front substringToIndex:front.length-obj.faceName.length];
-                                    *stop = YES;
-                                    *stopFace = YES;
-                                }
+                if (model.isDelete) {//删除事件
+                    if (location > 0) {
+                        //匹配光标位置往前的字符串
+                        __block NSString *front = [textField.text substringToIndex:location];
+                        NSString *back = [textField.text substringFromIndex:location];
+                        __block BOOL isEmoji = NO;
+                        if ([front hasSuffix:@"]"]) {
+                            [self.configer.keyboards enumerateObjectsUsingBlock:^(YLT_FaceboardGroupModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                                [obj.faces enumerateObjectsUsingBlock:^(YLT_FaceModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stopFace) {
+                                    if (obj.faceName && [front hasSuffix:obj.faceName]) {
+                                        isEmoji = YES;
+                                        front = [front substringToIndex:front.length-obj.faceName.length];
+                                        *stop = YES;
+                                        *stopFace = YES;
+                                    }
+                                }];
                             }];
-                        }];
+                        }
+                        front = isEmoji?front:[front substringToIndex:front.length-1];
+                        textField.text = [NSString stringWithFormat:@"%@%@", front, back];
+                        textField.selectedRange = NSMakeRange(front.length, 0);
                     }
-                    front = isEmoji?front:[front substringToIndex:front.length-1];
-                    textField.text = [NSString stringWithFormat:@"%@%@", front, back];
-                    textField.selectedRange = NSMakeRange(front.length, 0);
                 } else {//添加表情事件
                     if (self.configer.keyboards[indexPath.section].faceboardType==YLT_FaceboardType_Emoji) {
-                        
                         textField.text = [NSString stringWithFormat:@"%@%@%@", [textField.text substringToIndex:location], model.faceName, [textField.text substringFromIndex:location]];
                         textField.selectedRange = NSMakeRange(location+model.faceName.length, 0);
                     }

@@ -1,0 +1,6 @@
+framework module YLT_Faceboard {
+  umbrella header "YLT_Faceboard-umbrella.h"
+
+  export *
+  module * { export * }
+}

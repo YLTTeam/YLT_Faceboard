@@ -1,6 +1,6 @@
 {
   "name": "YLT_Faceboard",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "summary": "A short description of YLT_Faceboard.",
   "description": "TODO: Add long description of the pod here.",
   "homepage": "https://github.com/YLTTeam/YLT_Faceboard",
@@ -13,10 +13,10 @@
   },
   "source": {
     "git": "https://github.com/YLTTeam/YLT_Faceboard.git",
-    "tag": "0.0.1"
+    "tag": "0.0.2"
   },
   "platforms": {
-    "ios": "8.0"
+    "ios": "9.0"
   },
   "source_files": "YLT_Faceboard/Classes/**/*",
   "resource_bundles": {
